@@ -1,0 +1,8 @@
+(executable
+ (name unit)
+ (libraries alcotest raytracer))
+
+(rule
+ (alias runtest)
+ (action
+  (run %{exe:unit.exe})))

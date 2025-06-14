@@ -1,0 +1,34 @@
+lib: [
+  "_build/install/default/lib/raytracer/META"
+  "_build/install/default/lib/raytracer/core/color.ml" {"core/color.ml"}
+  "_build/install/default/lib/raytracer/core/raytracer__core.a" {"core/raytracer__core.a"}
+  "_build/install/default/lib/raytracer/core/raytracer__core.cma" {"core/raytracer__core.cma"}
+  "_build/install/default/lib/raytracer/core/raytracer__core.cmi" {"core/raytracer__core.cmi"}
+  "_build/install/default/lib/raytracer/core/raytracer__core.cmt" {"core/raytracer__core.cmt"}
+  "_build/install/default/lib/raytracer/core/raytracer__core.cmx" {"core/raytracer__core.cmx"}
+  "_build/install/default/lib/raytracer/core/raytracer__core.cmxa" {"core/raytracer__core.cmxa"}
+  "_build/install/default/lib/raytracer/core/raytracer__core.ml" {"core/raytracer__core.ml"}
+  "_build/install/default/lib/raytracer/core/raytracer__core__Color.cmi" {"core/raytracer__core__Color.cmi"}
+  "_build/install/default/lib/raytracer/core/raytracer__core__Color.cmt" {"core/raytracer__core__Color.cmt"}
+  "_build/install/default/lib/raytracer/core/raytracer__core__Color.cmx" {"core/raytracer__core__Color.cmx"}
+  "_build/install/default/lib/raytracer/core/raytracer__core__Tuple.cmi" {"core/raytracer__core__Tuple.cmi"}
+  "_build/install/default/lib/raytracer/core/raytracer__core__Tuple.cmt" {"core/raytracer__core__Tuple.cmt"}
+  "_build/install/default/lib/raytracer/core/raytracer__core__Tuple.cmx" {"core/raytracer__core__Tuple.cmx"}
+  "_build/install/default/lib/raytracer/core/tuple.ml" {"core/tuple.ml"}
+  "_build/install/default/lib/raytracer/dune-package"
+  "_build/install/default/lib/raytracer/opam"
+  "_build/install/default/lib/raytracer/raytracer.a"
+  "_build/install/default/lib/raytracer/raytracer.cma"
+  "_build/install/default/lib/raytracer/raytracer.cmi"
+  "_build/install/default/lib/raytracer/raytracer.cmt"
+  "_build/install/default/lib/raytracer/raytracer.cmx"
+  "_build/install/default/lib/raytracer/raytracer.cmxa"
+  "_build/install/default/lib/raytracer/raytracer.ml"
+]
+libexec: [
+  "_build/install/default/lib/raytracer/core/raytracer__core.cmxs" {"core/raytracer__core.cmxs"}
+  "_build/install/default/lib/raytracer/raytracer.cmxs"
+]
+doc: [
+  "_build/install/default/doc/raytracer/README.md"
+]
