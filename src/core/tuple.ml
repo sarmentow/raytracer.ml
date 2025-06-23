@@ -1,5 +1,4 @@
-let epsilon = 0.1
-let ( =. ) a b = a -. b < epsilon
+open Common.Common
 
 module type Vec4 = sig
   type t

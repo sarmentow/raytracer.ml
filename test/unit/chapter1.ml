@@ -1,6 +1,6 @@
+open Raytracer.Common.Common
 open Raytracer.Tuple.TupleOperations
 open Raytracer.Tuple.Tuple
-open Raytracer.Tuple
 
 let (-:) name f = Alcotest.test_case name `Quick f
 

@@ -1,6 +1,7 @@
+open Raytracer.Common.Common
 open Raytracer.Color
-open Raytracer.Tuple
 open Raytracer.Canvas
+
 
 let (-:) name f = Alcotest.test_case name `Quick f
 
