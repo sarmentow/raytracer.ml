@@ -1,7 +1,37 @@
 open Common.Common
 
 module Mat = struct
-  type t = { rows : int; cols : int; d : float array array }
+  type t = {
+    rows : int;
+    cols : int;
+    stride_r : int; (* Jump to get to the next row *)
+    stride_c : int; (* Jump to get to the next col *)
+    offset : int; (* Start index in the data array *)
+    d : float array;
+  }
+
+  let get m i j = m.d.(m.offset + (i * m.stride_r) + (j * m.stride_c))
+  let set m i j v = m.d.(m.offset + (i * m.stride_r) + (j * m.stride_c)) <- v
+
+  let create rows cols =
+    {
+      rows;
+      cols;
+      stride_r = cols;
+      stride_c = 1;
+      offset = 0;
+      d = Array.make (rows * cols) 0.;
+    }
+
+  let copy m =
+    {
+      rows = m.rows;
+      cols = m.cols;
+      stride_r = m.stride_r;
+      stride_c = m.stride_c;
+      offset = m.offset;
+      d = Array.copy m.d;
+    }
 
   let comb float_string float_list =
     Array.append [| float_of_string (String.trim float_string) |] float_list
@@ -18,6 +48,8 @@ module Mat = struct
   let cleanup_repr s =
     String.split_on_char '\n' s |> List.map String.trim |> Array.of_list
 
+  let array_of_matrix matrix = Array.fold_left Array.append [||] matrix
+
   (* Converts the book's matrix string representation to an actual matrix object 
       e.g. 
       | 1    | 2    | 3    | 4    |
@@ -28,36 +60,112 @@ module Mat = struct
     *)
   let mat_of_str s =
     let d = Array.map array_from_row (cleanup_repr s) in
+    let final_arr = d |> array_of_matrix in
     if array_is_rect d then
-      { rows = Array.length d; cols = Array.length d.(0); d }
+      {
+        rows = Array.length d;
+        cols = Array.length d.(0);
+        d = final_arr;
+        stride_r = Array.length d.(0);
+        stride_c = 1;
+        offset = 0;
+      }
     else raise (Invalid_argument "Array is not rectangular")
 
-  let mat_of_array arr =
+  let mat_of_matrix arr =
+    let final_arr = Array.fold_left Array.append [||] arr in
     if array_is_rect arr then
-      { rows = Array.length arr; cols = Array.length arr.(0); d = arr }
+      {
+        rows = Array.length arr;
+        cols = Array.length arr.(0);
+        d = final_arr;
+        stride_r = Array.length arr.(0);
+        stride_c = 1;
+        offset = 0;
+      }
     else raise (Invalid_argument "Array is not rectangular")
 
   let compare_matrices m1 m2 =
-    Array.for_all2 (fun a b -> Array.for_all2 (fun i j -> i =. j) a b) m1.d m2.d
+    if m1.rows <> m2.rows || m1.cols <> m2.cols then false
+    else
+      let rec compare_elements i j =
+        if i >= m1.rows then true
+        else if j >= m1.cols then compare_elements (i + 1) 0
+        else get m1 i j =. get m2 i j && compare_elements i (j + 1)
+      in
+      compare_elements 0 0
 
   let transpose m =
-    let transposed = Array.init_matrix m.cols m.rows (fun i j -> m.d.(j).(i)) in
-    { rows = m.cols; cols = m.rows; d = transposed }
+    {
+      rows = m.cols;
+      cols = m.rows;
+      d = m.d;
+      stride_r = 1;
+      stride_c = m.rows;
+      offset = 0;
+    }
 
-  let dot a1 a2 =
-    Array.fold_left
-      (fun acc a -> acc +. a)
-      0.
-      (Array.map2 (fun i j -> i *. j) a1 a2)
-
-  (* This could be much more efficient *)
   let mult m1 m2 =
-    let t_m2 = transpose m2 in
-    let result_matrix = Array.make_matrix m1.rows m2.cols 0. in
-    for i = 0 to m1.rows - 1 do
-      for j = 0 to m2.cols - 1 do
-        result_matrix.(i).(j) <- dot m1.d.(i) t_m2.d.(j)
-      done
-    done;
-    { rows = m1.rows; cols = m2.cols; d = result_matrix }
+    if m1.cols <> m2.rows then raise (Invalid_argument "Invalid Arguments")
+    else
+      let result = create m1.rows m2.cols in
+      for i = 0 to m1.rows - 1 do
+        for j = 0 to m2.cols - 1 do
+          let sum = ref 0. in
+          for k = 0 to m1.cols - 1 do
+            sum := !sum +. (get m1 i k *. get m2 k j)
+          done;
+          set result i j !sum
+        done
+      done;
+      result
+
+  let submat m i j =
+    if i >= m.rows || j >= m.cols || i < 0 || j < 0 then
+      raise (Invalid_argument "Invalid row/col for deletion")
+    else
+      let new_rows = m.rows - 1 in
+      let new_cols = m.cols - 1 in
+      let result = create new_rows new_cols in
+      for dst_i = 0 to new_rows - 1 do
+        let src_i = if dst_i < i then dst_i else dst_i + 1 in
+        for dst_j = 0 to new_cols - 1 do
+          let src_j = if dst_j < j then dst_j else dst_j + 1 in
+          let src_val = get m src_i src_j in
+          set result dst_i dst_j src_val
+        done
+      done;
+      result
+
+  let rec det m =
+    if m.rows = 1 && m.cols = 1 then get m 0 0
+    else if m.rows <> m.cols then
+      raise (Invalid_argument "matrix is non-square")
+    else if m.rows = 2 && m.cols = 2 then
+      (get m 0 0 *. get m 1 1) -. (get m 0 1 *. get m 1 0)
+    else
+      let rec sum_cofactors j acc =
+        if j >= m.cols then acc
+        else
+          let cof = get m 0 j *. cofactor m 0 j in
+          sum_cofactors (j + 1) (acc +. cof)
+      in
+      sum_cofactors 0 0.
+
+  and minor m i j = det (submat m i j)
+  and cofactor m i j = minor m i j *. if (i + j) mod 2 = 0 then 1. else -1.
+
+  let inverse m =
+    let det_m = det m in
+    if abs_float det_m < epsilon then
+      raise (Invalid_argument "m is not invertible")
+    else
+      let result = create m.rows m.cols in
+      for row = 0 to m.rows - 1 do
+        for col = 0 to m.cols - 1 do
+          let c = cofactor m row col in
+          set result col row (c /. det_m)
+        done
+      done;
+      result
 end
