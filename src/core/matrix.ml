@@ -85,6 +85,13 @@ module Mat = struct
       }
     else raise (Invalid_argument "Array is not rectangular")
 
+  let mat_of_arr arr rows cols =
+    if rows < 0 || cols < 0 then
+      raise (Invalid_argument "Negative rows or cols")
+    else if Array.length arr <> rows * cols then
+      raise (Invalid_argument "Array is incompatible with dimensions given")
+    else { rows; cols; d = arr; stride_r = cols; stride_c = 1; offset = 0 }
+
   let compare_matrices m1 m2 =
     if m1.rows <> m2.rows || m1.cols <> m2.cols then false
     else

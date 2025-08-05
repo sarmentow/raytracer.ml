@@ -1,7 +1,8 @@
 open Common.Common
+open Matrix
 
 module type Vec4 = sig
-  type t
+  type t = Mat.t
 
   val x : t -> float
   val y : t -> float
@@ -54,13 +55,20 @@ module Vec4Ops (M : Vec4) = struct
 end
 
 module Tuple : Vec4 = struct
-  type t = { x : float; y : float; z : float; w : float }
+  type t = Mat.t
 
-  let x t = t.x
-  let y t = t.y
-  let z t = t.z
-  let w t = t.w
-  let init x y z w = ({ x; y; z; w } : t)
+  let x t = Mat.get t 0 0
+  let y t = Mat.get t 1 0
+  let z t = Mat.get t 2 0
+  let w t = Mat.get t 3 0
+
+  let init x y z w =
+    let mat = Mat.create 4 1 in
+    Mat.set mat 0 0 x;
+    Mat.set mat 1 0 y;
+    Mat.set mat 2 0 z;
+    Mat.set mat 3 0 w;
+    mat
 end
 
 module TupleOperations = Vec4Ops (Tuple)
