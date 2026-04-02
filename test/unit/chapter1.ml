@@ -1,6 +1,5 @@
 open Raytracer.Common
-open Raytracer.Tuple.TupleOperations
-open Raytracer.Tuple.Tuple
+open Raytracer.Tuple
 
 let ( -: ) name f = Alcotest.test_case name `Quick f
 let p = init 4.3 (-4.2) 3.1 1.0

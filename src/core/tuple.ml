@@ -53,21 +53,27 @@ module Vec4Ops (M : Vec4) = struct
   let ( = ) a b = M.x a = M.x b && M.y a = M.y b && M.z a = M.z b
 end
 
-module Tuple : Vec4 = struct
+type t = Matrix.t
+
+let x t = Matrix.get t 0 0
+let y t = Matrix.get t 1 0
+let z t = Matrix.get t 2 0
+let w t = Matrix.get t 3 0
+
+let init x y z w =
+  let mat = Matrix.create 4 1 in
+  Matrix.set mat 0 0 x;
+  Matrix.set mat 1 0 y;
+  Matrix.set mat 2 0 z;
+  Matrix.set mat 3 0 w;
+  mat
+
+include Vec4Ops (struct
   type t = Matrix.t
 
-  let x t = Matrix.get t 0 0
-  let y t = Matrix.get t 1 0
-  let z t = Matrix.get t 2 0
-  let w t = Matrix.get t 3 0
-
-  let init x y z w =
-    let mat = Matrix.create 4 1 in
-    Matrix.set mat 0 0 x;
-    Matrix.set mat 1 0 y;
-    Matrix.set mat 2 0 z;
-    Matrix.set mat 3 0 w;
-    mat
-end
-
-module TupleOperations = Vec4Ops (Tuple)
+  let x = x
+  let y = y
+  let z = z
+  let w = w
+  let init = init
+end)

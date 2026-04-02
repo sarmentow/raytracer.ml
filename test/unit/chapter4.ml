@@ -32,8 +32,8 @@ let tests =
       *)
       ( "Multiplying by a translation matrix" -: fun () ->
         let transform = Transform.translation 5. (-3.) 2. in
-        let point = TupleOperations.init_point (-3.) 4. 5. in
-        let expected = TupleOperations.init_point 2. 1. 7. in
+        let point = init_point (-3.) 4. 5. in
+        let expected = init_point 2. 1. 7. in
         let product = Matrix.mult transform point in
 
         Alcotest.(check matrix_testable)
@@ -48,8 +48,8 @@ let tests =
       ( "Multiplying by the inverse of a translation matrix" -: fun () ->
         let transform = Transform.translation 5. (-3.) 2. in
         let inv = Matrix.inverse transform in
-        let point = TupleOperations.init_point (-3.) 4. 5. in
-        let expected = TupleOperations.init_point (-8.) 7. 3. in
+        let point = init_point (-3.) 4. 5. in
+        let expected = init_point (-8.) 7. 3. in
         let product = Matrix.mult inv point in
 
         Alcotest.(check matrix_testable)
@@ -62,7 +62,7 @@ let tests =
       *)
       ( "Translation does not affect vectors" -: fun () ->
         let transform = Transform.translation 5. (-3.) 2. in
-        let vector = TupleOperations.init_vector (-3.) 4. 5. in
+        let vector = init_vector (-3.) 4. 5. in
         let expected = vector in
         let product = Matrix.mult transform vector in
 
@@ -75,8 +75,8 @@ let tests =
       *)
       ( "A scaling matrix applied to a point" -: fun () ->
         let transform = Transform.scale 2. 3. 4. in
-        let point = TupleOperations.init_point (-4.) 6. 8. in
-        let expected = TupleOperations.init_point (-8.) 18. 32. in
+        let point = init_point (-4.) 6. 8. in
+        let expected = init_point (-8.) 18. 32. in
         let product = Matrix.mult transform point in
 
         Alcotest.(check matrix_testable)
@@ -89,8 +89,8 @@ let tests =
       *)
       ( "A scaling matrix applied to a vector" -: fun () ->
         let transform = Transform.scale 2. 3. 4. in
-        let vector = TupleOperations.init_vector (-4.) 6. 8. in
-        let expected = TupleOperations.init_vector (-8.) 18. 32. in
+        let vector = init_vector (-4.) 6. 8. in
+        let expected = init_vector (-8.) 18. 32. in
         let product = Matrix.mult transform vector in
 
         Alcotest.(check matrix_testable)
@@ -105,8 +105,8 @@ let tests =
       ( "Multiplying by the inverse of a scaling matrix" -: fun () ->
         let transform = Transform.scale 2. 3. 4. in
         let inv = Matrix.inverse transform in
-        let vector = TupleOperations.init_vector (-4.) 6. 8. in
-        let expected = TupleOperations.init_vector (-2.) 2. 2. in
+        let vector = init_vector (-4.) 6. 8. in
+        let expected = init_vector (-2.) 2. 2. in
         let product = Matrix.mult inv vector in
 
         Alcotest.(check matrix_testable)
@@ -119,8 +119,8 @@ let tests =
       *)
       ( "Reflection is scaling by a negative value" -: fun () ->
         let transform = Transform.scale (-1.) 1. 1. in
-        let point = TupleOperations.init_point 2. 3. 4. in
-        let expected = TupleOperations.init_point (-2.) 3. 4. in
+        let point = init_point 2. 3. 4. in
+        let expected = init_point (-2.) 3. 4. in
         let product = Matrix.mult transform point in
 
         Alcotest.(check matrix_testable)
@@ -134,12 +134,12 @@ let tests =
         And full_quarter * p = point(0, 0, 1)
       *)
       ( "Rotating a point around the x axis" -: fun () ->
-        let p = TupleOperations.init_point 0. 1. 0. in
+        let p = init_point 0. 1. 0. in
         let half_quarter = Transform.rotation_x (Float.pi /. 4.) in
         let full_quarter = Transform.rotation_x (Float.pi /. 2.) in
         let sqrt2_2 = sqrt 2. /. 2. in
-        let expected_half = TupleOperations.init_point 0. sqrt2_2 sqrt2_2 in
-        let expected_full = TupleOperations.init_point 0. 0. 1. in
+        let expected_half = init_point 0. sqrt2_2 sqrt2_2 in
+        let expected_full = init_point 0. 0. 1. in
         let product_half = Matrix.mult half_quarter p in
         let product_full = Matrix.mult full_quarter p in
 
@@ -156,12 +156,12 @@ let tests =
         And full_quarter * p = point(1, 0, 0)
       *)
       ( "Rotating a point around the y axis" -: fun () ->
-        let p = TupleOperations.init_point 0. 0. 1. in
+        let p = init_point 0. 0. 1. in
         let half_quarter = Transform.rotation_y (Float.pi /. 4.) in
         let full_quarter = Transform.rotation_y (Float.pi /. 2.) in
         let sqrt2_2 = sqrt 2. /. 2. in
-        let expected_half = TupleOperations.init_point sqrt2_2 0. sqrt2_2 in
-        let expected_full = TupleOperations.init_point 1. 0. 0. in
+        let expected_half = init_point sqrt2_2 0. sqrt2_2 in
+        let expected_full = init_point 1. 0. 0. in
         let product_half = Matrix.mult half_quarter p in
         let product_full = Matrix.mult full_quarter p in
 
@@ -178,12 +178,12 @@ let tests =
         And full_quarter * p = point(-1, 0, 0)
       *)
       ( "Rotating a point around the z axis" -: fun () ->
-        let p = TupleOperations.init_point 0. 1. 0. in
+        let p = init_point 0. 1. 0. in
         let half_quarter = Transform.rotation_z (Float.pi /. 4.) in
         let full_quarter = Transform.rotation_z (Float.pi /. 2.) in
         let sqrt2_2 = sqrt 2. /. 2. in
-        let expected_half = TupleOperations.init_point (-.sqrt2_2) sqrt2_2 0. in
-        let expected_full = TupleOperations.init_point (-1.) 0. 0. in
+        let expected_half = init_point (-.sqrt2_2) sqrt2_2 0. in
+        let expected_full = init_point (-1.) 0. 0. in
         let product_half = Matrix.mult half_quarter p in
         let product_full = Matrix.mult full_quarter p in
 
@@ -199,8 +199,8 @@ let tests =
       *)
       ( "A shearing transformation moves x in proportion to y" -: fun () ->
         let transform = Transform.shearing 1. 0. 0. 0. 0. 0. in
-        let p = TupleOperations.init_point 2. 3. 4. in
-        let expected = TupleOperations.init_point 5. 3. 4. in
+        let p = init_point 2. 3. 4. in
+        let expected = init_point 5. 3. 4. in
         let product = Matrix.mult transform p in
 
         Alcotest.(check matrix_testable)
@@ -213,8 +213,8 @@ let tests =
       *)
       ( "A shearing transformation moves x in proportion to z" -: fun () ->
         let transform = Transform.shearing 0. 1. 0. 0. 0. 0. in
-        let p = TupleOperations.init_point 2. 3. 4. in
-        let expected = TupleOperations.init_point 6. 3. 4. in
+        let p = init_point 2. 3. 4. in
+        let expected = init_point 6. 3. 4. in
         let product = Matrix.mult transform p in
 
         Alcotest.(check matrix_testable)
@@ -227,8 +227,8 @@ let tests =
       *)
       ( "A shearing transformation moves y in proportion to x" -: fun () ->
         let transform = Transform.shearing 0. 0. 1. 0. 0. 0. in
-        let p = TupleOperations.init_point 2. 3. 4. in
-        let expected = TupleOperations.init_point 2. 5. 4. in
+        let p = init_point 2. 3. 4. in
+        let expected = init_point 2. 5. 4. in
         let product = Matrix.mult transform p in
 
         Alcotest.(check matrix_testable)
@@ -241,8 +241,8 @@ let tests =
       *)
       ( "A shearing transformation moves y in proportion to z" -: fun () ->
         let transform = Transform.shearing 0. 0. 0. 1. 0. 0. in
-        let p = TupleOperations.init_point 2. 3. 4. in
-        let expected = TupleOperations.init_point 2. 7. 4. in
+        let p = init_point 2. 3. 4. in
+        let expected = init_point 2. 7. 4. in
         let product = Matrix.mult transform p in
 
         Alcotest.(check matrix_testable)
@@ -255,8 +255,8 @@ let tests =
       *)
       ( "A shearing transformation moves z in proportion to x" -: fun () ->
         let transform = Transform.shearing 0. 0. 0. 0. 1. 0. in
-        let p = TupleOperations.init_point 2. 3. 4. in
-        let expected = TupleOperations.init_point 2. 3. 6. in
+        let p = init_point 2. 3. 4. in
+        let expected = init_point 2. 3. 6. in
         let product = Matrix.mult transform p in
 
         Alcotest.(check matrix_testable)
@@ -269,8 +269,8 @@ let tests =
       *)
       ( "A shearing transformation moves z in proportion to y" -: fun () ->
         let transform = Transform.shearing 0. 0. 0. 0. 0. 1. in
-        let p = TupleOperations.init_point 2. 3. 4. in
-        let expected = TupleOperations.init_point 2. 3. 7. in
+        let p = init_point 2. 3. 4. in
+        let expected = init_point 2. 3. 7. in
         let product = Matrix.mult transform p in
 
         Alcotest.(check matrix_testable)
@@ -292,24 +292,24 @@ let tests =
         Then p4 = point(15, 0, 7)
       *)
       ( "Individual transformations are applied in sequence" -: fun () ->
-        let p = TupleOperations.init_point 1. 0. 1. in
+        let p = init_point 1. 0. 1. in
         let a = Transform.rotation_x (Float.pi /. 2.) in
         let b = Transform.scale 5. 5. 5. in
         let c = Transform.translation 10. 5. 7. in
 
         (* apply rotation first *)
         let p2 = Matrix.mult a p in
-        let expected_p2 = TupleOperations.init_point 1. (-1.) 0. in
+        let expected_p2 = init_point 1. (-1.) 0. in
         Alcotest.(check matrix_testable) "p2 = point(1, -1, 0)" expected_p2 p2;
 
         (* then apply scaling *)
         let p3 = Matrix.mult b p2 in
-        let expected_p3 = TupleOperations.init_point 5. (-5.) 0. in
+        let expected_p3 = init_point 5. (-5.) 0. in
         Alcotest.(check matrix_testable) "p3 = point(5, -5, 0)" expected_p3 p3;
 
         (* then apply translation *)
         let p4 = Matrix.mult c p3 in
-        let expected_p4 = TupleOperations.init_point 15. 0. 7. in
+        let expected_p4 = init_point 15. 0. 7. in
         Alcotest.(check matrix_testable) "p4 = point(15, 0, 7)" expected_p4 p4
       );
       (*
@@ -322,7 +322,7 @@ let tests =
         Then T * p = point(15, 0, 7)
       *)
       ( "Chained transformations must be applied in reverse order" -: fun () ->
-        let p = TupleOperations.init_point 1. 0. 1. in
+        let p = init_point 1. 0. 1. in
         let a = Transform.rotation_x (Float.pi /. 2.) in
         let b = Transform.scale 5. 5. 5. in
         let c = Transform.translation 10. 5. 7. in
@@ -330,7 +330,7 @@ let tests =
         (* T = C * B * A *)
         let t = Matrix.mult c (Matrix.mult b a) in
         let result = Matrix.mult t p in
-        let expected = TupleOperations.init_point 15. 0. 7. in
+        let expected = init_point 15. 0. 7. in
 
         Alcotest.(check matrix_testable)
           "T * p = point(15, 0, 7)" expected result );
