@@ -75,7 +75,7 @@ let tests =
         let red = Color.init 1. 0. 0. 1. in
         Alcotest.(check bool)
           "red pixel at (5, 5)" true
-          (Canvas.write_pixel canvas 5 5 red;
+          (Canvas.write_pixel 5 5 red canvas;
            Canvas.pixel_at 5 5 canvas |> Color.( = ) red) );
       ( "write canvas to ppm" -: fun () ->
         let canvas = Canvas.init 5 3 in
@@ -88,9 +88,9 @@ let tests =
         let c1 = Color.init 1.5 0. 0. 1. in
         let c2 = Color.init 0. 0.5 0. 1. in
         let c3 = Color.init (-0.5) 0. 1. 1. in
-        Canvas.write_pixel canvas 0 0 c1;
-        Canvas.write_pixel canvas 2 1 c2;
-        Canvas.write_pixel canvas 4 2 c3;
+        Canvas.write_pixel 0 0 c1 canvas;
+        Canvas.write_pixel 2 1 c2 canvas;
+        Canvas.write_pixel 4 2 c3 canvas;
         let ppm = Canvas.canvas_to_ppm canvas in
         let b = Buffer.contents ppm in
         let lines = String.split_on_char '\n' b in
