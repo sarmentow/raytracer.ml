@@ -1,4 +1,3 @@
-open Raytracer.Transformations
 open Raytracer.Tuple
 open Raytracer
 
@@ -31,7 +30,7 @@ let tests =
         Then transform * p = point(2, 1, 7)
       *)
       ( "Multiplying by a translation matrix" -: fun () ->
-        let transform = Transform.translation 5. (-3.) 2. in
+        let transform = Transformations.translation 5. (-3.) 2. in
         let point = init_point (-3.) 4. 5. in
         let expected = init_point 2. 1. 7. in
         let product = Matrix.mult transform point in
@@ -46,7 +45,7 @@ let tests =
         Then inv * p = point(-8, 7, 3)
       *)
       ( "Multiplying by the inverse of a translation matrix" -: fun () ->
-        let transform = Transform.translation 5. (-3.) 2. in
+        let transform = Transformations.translation 5. (-3.) 2. in
         let inv = Matrix.inverse transform in
         let point = init_point (-3.) 4. 5. in
         let expected = init_point (-8.) 7. 3. in
@@ -61,7 +60,7 @@ let tests =
         Then transform * v = v
       *)
       ( "Translation does not affect vectors" -: fun () ->
-        let transform = Transform.translation 5. (-3.) 2. in
+        let transform = Transformations.translation 5. (-3.) 2. in
         let vector = init_vector (-3.) 4. 5. in
         let expected = vector in
         let product = Matrix.mult transform vector in
@@ -74,7 +73,7 @@ let tests =
         Then transform * p = point(-8, 18, 32)
       *)
       ( "A scaling matrix applied to a point" -: fun () ->
-        let transform = Transform.scale 2. 3. 4. in
+        let transform = Transformations.scale 2. 3. 4. in
         let point = init_point (-4.) 6. 8. in
         let expected = init_point (-8.) 18. 32. in
         let product = Matrix.mult transform point in
@@ -88,7 +87,7 @@ let tests =
         Then transform * v = vector(-8, 18, 32)
       *)
       ( "A scaling matrix applied to a vector" -: fun () ->
-        let transform = Transform.scale 2. 3. 4. in
+        let transform = Transformations.scale 2. 3. 4. in
         let vector = init_vector (-4.) 6. 8. in
         let expected = init_vector (-8.) 18. 32. in
         let product = Matrix.mult transform vector in
@@ -103,7 +102,7 @@ let tests =
         Then inv * v = vector(-2, 2, 2)
       *)
       ( "Multiplying by the inverse of a scaling matrix" -: fun () ->
-        let transform = Transform.scale 2. 3. 4. in
+        let transform = Transformations.scale 2. 3. 4. in
         let inv = Matrix.inverse transform in
         let vector = init_vector (-4.) 6. 8. in
         let expected = init_vector (-2.) 2. 2. in
@@ -118,7 +117,7 @@ let tests =
         Then transform * p = point(-2, 3, 4)
       *)
       ( "Reflection is scaling by a negative value" -: fun () ->
-        let transform = Transform.scale (-1.) 1. 1. in
+        let transform = Transformations.scale (-1.) 1. 1. in
         let point = init_point 2. 3. 4. in
         let expected = init_point (-2.) 3. 4. in
         let product = Matrix.mult transform point in
@@ -135,8 +134,8 @@ let tests =
       *)
       ( "Rotating a point around the x axis" -: fun () ->
         let p = init_point 0. 1. 0. in
-        let half_quarter = Transform.rotation_x (Float.pi /. 4.) in
-        let full_quarter = Transform.rotation_x (Float.pi /. 2.) in
+        let half_quarter = Transformations.rotation_x (Float.pi /. 4.) in
+        let full_quarter = Transformations.rotation_x (Float.pi /. 2.) in
         let sqrt2_2 = sqrt 2. /. 2. in
         let expected_half = init_point 0. sqrt2_2 sqrt2_2 in
         let expected_full = init_point 0. 0. 1. in
@@ -157,8 +156,8 @@ let tests =
       *)
       ( "Rotating a point around the y axis" -: fun () ->
         let p = init_point 0. 0. 1. in
-        let half_quarter = Transform.rotation_y (Float.pi /. 4.) in
-        let full_quarter = Transform.rotation_y (Float.pi /. 2.) in
+        let half_quarter = Transformations.rotation_y (Float.pi /. 4.) in
+        let full_quarter = Transformations.rotation_y (Float.pi /. 2.) in
         let sqrt2_2 = sqrt 2. /. 2. in
         let expected_half = init_point sqrt2_2 0. sqrt2_2 in
         let expected_full = init_point 1. 0. 0. in
@@ -179,8 +178,8 @@ let tests =
       *)
       ( "Rotating a point around the z axis" -: fun () ->
         let p = init_point 0. 1. 0. in
-        let half_quarter = Transform.rotation_z (Float.pi /. 4.) in
-        let full_quarter = Transform.rotation_z (Float.pi /. 2.) in
+        let half_quarter = Transformations.rotation_z (Float.pi /. 4.) in
+        let full_quarter = Transformations.rotation_z (Float.pi /. 2.) in
         let sqrt2_2 = sqrt 2. /. 2. in
         let expected_half = init_point (-.sqrt2_2) sqrt2_2 0. in
         let expected_full = init_point (-1.) 0. 0. in
@@ -198,7 +197,7 @@ let tests =
         Then transform * p = point(5, 3, 4)
       *)
       ( "A shearing transformation moves x in proportion to y" -: fun () ->
-        let transform = Transform.shearing 1. 0. 0. 0. 0. 0. in
+        let transform = Transformations.shearing 1. 0. 0. 0. 0. 0. in
         let p = init_point 2. 3. 4. in
         let expected = init_point 5. 3. 4. in
         let product = Matrix.mult transform p in
@@ -212,7 +211,7 @@ let tests =
         Then transform * p = point(6, 3, 4)
       *)
       ( "A shearing transformation moves x in proportion to z" -: fun () ->
-        let transform = Transform.shearing 0. 1. 0. 0. 0. 0. in
+        let transform = Transformations.shearing 0. 1. 0. 0. 0. 0. in
         let p = init_point 2. 3. 4. in
         let expected = init_point 6. 3. 4. in
         let product = Matrix.mult transform p in
@@ -226,7 +225,7 @@ let tests =
         Then transform * p = point(2, 5, 4)
       *)
       ( "A shearing transformation moves y in proportion to x" -: fun () ->
-        let transform = Transform.shearing 0. 0. 1. 0. 0. 0. in
+        let transform = Transformations.shearing 0. 0. 1. 0. 0. 0. in
         let p = init_point 2. 3. 4. in
         let expected = init_point 2. 5. 4. in
         let product = Matrix.mult transform p in
@@ -240,7 +239,7 @@ let tests =
         Then transform * p = point(2, 7, 4)
       *)
       ( "A shearing transformation moves y in proportion to z" -: fun () ->
-        let transform = Transform.shearing 0. 0. 0. 1. 0. 0. in
+        let transform = Transformations.shearing 0. 0. 0. 1. 0. 0. in
         let p = init_point 2. 3. 4. in
         let expected = init_point 2. 7. 4. in
         let product = Matrix.mult transform p in
@@ -254,7 +253,7 @@ let tests =
         Then transform * p = point(2, 3, 6)
       *)
       ( "A shearing transformation moves z in proportion to x" -: fun () ->
-        let transform = Transform.shearing 0. 0. 0. 0. 1. 0. in
+        let transform = Transformations.shearing 0. 0. 0. 0. 1. 0. in
         let p = init_point 2. 3. 4. in
         let expected = init_point 2. 3. 6. in
         let product = Matrix.mult transform p in
@@ -268,7 +267,7 @@ let tests =
         Then transform * p = point(2, 3, 7)
       *)
       ( "A shearing transformation moves z in proportion to y" -: fun () ->
-        let transform = Transform.shearing 0. 0. 0. 0. 0. 1. in
+        let transform = Transformations.shearing 0. 0. 0. 0. 0. 1. in
         let p = init_point 2. 3. 4. in
         let expected = init_point 2. 3. 7. in
         let product = Matrix.mult transform p in
@@ -293,9 +292,9 @@ let tests =
       *)
       ( "Individual transformations are applied in sequence" -: fun () ->
         let p = init_point 1. 0. 1. in
-        let a = Transform.rotation_x (Float.pi /. 2.) in
-        let b = Transform.scale 5. 5. 5. in
-        let c = Transform.translation 10. 5. 7. in
+        let a = Transformations.rotation_x (Float.pi /. 2.) in
+        let b = Transformations.scale 5. 5. 5. in
+        let c = Transformations.translation 10. 5. 7. in
 
         (* apply rotation first *)
         let p2 = Matrix.mult a p in
@@ -323,9 +322,9 @@ let tests =
       *)
       ( "Chained transformations must be applied in reverse order" -: fun () ->
         let p = init_point 1. 0. 1. in
-        let a = Transform.rotation_x (Float.pi /. 2.) in
-        let b = Transform.scale 5. 5. 5. in
-        let c = Transform.translation 10. 5. 7. in
+        let a = Transformations.rotation_x (Float.pi /. 2.) in
+        let b = Transformations.scale 5. 5. 5. in
+        let c = Transformations.translation 10. 5. 7. in
 
         (* T = C * B * A *)
         let t = Matrix.mult c (Matrix.mult b a) in
