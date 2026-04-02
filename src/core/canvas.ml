@@ -1,11 +1,11 @@
 module Canvas = struct
-  type t = { w : int; h : int; pixels : Color.Color.t array array }
+  type t = { w : int; h : int; pixels : Color.t array array }
 
   let w t = t.w
   let h t = t.h
 
   let init w h =
-    { w; h; pixels = Array.make_matrix h w (Color.Color.init 0. 0. 0. 1.) }
+    { w; h; pixels = Array.make_matrix h w (Color.init 0. 0. 0. 1.) }
 
   let init_with_color w h c = { w; h; pixels = Array.make_matrix h w c }
   let write_pixel c x y color = c.pixels.(y).(x) <- color
@@ -14,9 +14,9 @@ module Canvas = struct
 
   let color_to_spaced_rgb c =
     Printf.sprintf "%d %d %d"
-      (int_of_float (scale_color (Color.Color.x c)))
-      (int_of_float (scale_color (Color.Color.y c)))
-      (int_of_float (scale_color (Color.Color.z c)))
+      (int_of_float (scale_color (Color.x c)))
+      (int_of_float (scale_color (Color.y c)))
+      (int_of_float (scale_color (Color.z c)))
 
   let canvas_to_ppm c =
     let b = Buffer.create 1024 in

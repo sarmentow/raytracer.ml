@@ -1,5 +1,5 @@
 open Raytracer.Common
-open Raytracer.Color
+open Raytracer
 open Raytracer.Canvas
 
 let ( -: ) name f = Alcotest.test_case name `Quick f
@@ -18,7 +18,7 @@ let tests =
       ( "add color" -: fun () ->
         let c1 = Color.init 0.9 0.6 0.75 1.0 in
         let c2 = Color.init 0.7 0.1 0.25 1.0 in
-        let result = ColorOps.( <+> ) c1 c2 in
+        let result = Color.( <+> ) c1 c2 in
         Alcotest.(check bool)
           "adds color" true
           (Color.x result = 1.6
@@ -28,7 +28,7 @@ let tests =
       ( "subtract color" -: fun () ->
         let c1 = Color.init 0.9 0.6 0.75 1.0 in
         let c2 = Color.init 0.7 0.1 0.25 1.0 in
-        let result = ColorOps.( <-> ) c1 c2 in
+        let result = Color.( <-> ) c1 c2 in
         Alcotest.(check bool)
           "subtracts color" true
           (Color.x result =. 0.2
@@ -37,7 +37,7 @@ let tests =
           && Color.w result =. 0.) );
       ( "multiply color by scalar" -: fun () ->
         let c1 = Color.init 0.2 0.3 0.4 1.0 in
-        let result = ColorOps.( <*.> ) c1 2. in
+        let result = Color.( <*.> ) c1 2. in
         Alcotest.(check bool)
           "subtracts color" true
           (Color.x result =. 0.4
@@ -47,7 +47,7 @@ let tests =
       ( "hadamard product" -: fun () ->
         let c1 = Color.init 1. 0.2 0.4 1.0 in
         let c2 = Color.init 0.9 1. 0.1 1.0 in
-        let result = ColorOps.( <*> ) c1 c2 in
+        let result = Color.( <*> ) c1 c2 in
         Alcotest.(check bool)
           "hadamard product" true
           (Color.x result =. 0.9
@@ -76,7 +76,7 @@ let tests =
         Alcotest.(check bool)
           "red pixel at (5, 5)" true
           (Canvas.write_pixel canvas 5 5 red;
-           Canvas.pixel_at 5 5 canvas |> ColorOps.( = ) red) );
+           Canvas.pixel_at 5 5 canvas |> Color.( = ) red) );
       ( "write canvas to ppm" -: fun () ->
         let canvas = Canvas.init 5 3 in
         let ppm = Canvas.canvas_to_ppm canvas in
