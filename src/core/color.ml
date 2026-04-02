@@ -1,19 +1,17 @@
-open Matrix
-
 module Color : Tuple.Vec4 = struct
-  type t = Mat.t
+  type t = Matrix.t
 
-  let x t = Mat.get t 0 0
-  let y t = Mat.get t 1 0
-  let z t = Mat.get t 2 0
-  let w t = Mat.get t 3 0
+  let x t = Matrix.get t 0 0
+  let y t = Matrix.get t 1 0
+  let z t = Matrix.get t 2 0
+  let w t = Matrix.get t 3 0
 
   let init red green blue alpha =
-    let mat = Mat.create 4 1 in
-    Mat.set mat 0 0 red;
-    Mat.set mat 1 0 green;
-    Mat.set mat 2 0 blue;
-    Mat.set mat 3 0 alpha;
+    let mat = Matrix.create 4 1 in
+    Matrix.set mat 0 0 red;
+    Matrix.set mat 1 0 green;
+    Matrix.set mat 2 0 blue;
+    Matrix.set mat 3 0 alpha;
     mat
 end
 
