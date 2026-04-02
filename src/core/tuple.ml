@@ -25,7 +25,7 @@ module Vec4Ops (M : Vec4) = struct
       (f (M.z a) scalar)
       (f (M.w a) scalar)
 
-  let origin = M.init 0. 0. 0. 1.
+  let origin = M.init 0. 0. 0. 0.
   let ( <+> ) a b = unite_components ( +. ) a b
   let ( <-> ) a b = unite_components ( -. ) a b
   let ( ~<-> ) a = unite_components ( -. ) origin a
@@ -50,7 +50,9 @@ module Vec4Ops (M : Vec4) = struct
 
   let init_point x y z = M.init x y z 1.
   let init_vector x y z = M.init x y z 0.
-  let ( = ) a b = M.x a = M.x b && M.y a = M.y b && M.z a = M.z b
+
+  let ( = ) a b =
+    M.x a =. M.x b && M.y a =. M.y b && M.z a =. M.z b && M.w a =. M.w b
 end
 
 type t = Matrix.t
