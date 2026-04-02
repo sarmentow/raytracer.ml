@@ -1,5 +1,3 @@
 (library
  (public_name raytracer)
- (wrapped false)
- (modules raytracer)
- (libraries raytracer.core))
+ (name raytracer))
