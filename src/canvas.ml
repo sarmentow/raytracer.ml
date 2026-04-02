@@ -2,8 +2,10 @@ type t = { w : int; h : int; pixels : Color.t array array }
 
 let w t = t.w
 let h t = t.h
-let init w h = { w; h; pixels = Array.make_matrix h w (Color.init 0. 0. 0. 1.) }
-let init_with_color w h c = { w; h; pixels = Array.make_matrix h w c }
+
+let init ?(color = Color.init 0. 0. 0. 1.) w h =
+  { w; h; pixels = Array.make_matrix h w color }
+
 let write_pixel x y color c = c.pixels.(y).(x) <- color
 let pixel_at x y c = c.pixels.(y).(x)
 let scale_color c = if c < 0. then 0. else if c > 1. then 255. else c *. 255.

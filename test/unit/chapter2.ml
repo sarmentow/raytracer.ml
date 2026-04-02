@@ -103,7 +103,7 @@ let tests =
               && line5 = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255"
           | _ -> false) );
       ( "write pixels to ppm and breaks lines  to be below 70 chars" -: fun () ->
-        let canvas = Canvas.init_with_color 10 2 (Color.init 1. 1. 1. 1.) in
+        let canvas = Canvas.init ~color:(Color.init 1. 1. 1. 1.) 10 2 in
         let ppm = Canvas.canvas_to_ppm canvas in
         let b = Buffer.contents ppm in
         let lines = String.split_on_char '\n' b in
@@ -111,7 +111,7 @@ let tests =
           "outputs expected ppm file" true
           (List.for_all (fun line -> String.length line <= 70) lines) );
       ( "ppm files are terminated by a newline" -: fun () ->
-        let canvas = Canvas.init_with_color 10 2 (Color.init 1. 1. 1. 1.) in
+        let canvas = Canvas.init ~color:(Color.init 1. 1. 1. 1.) 10 2 in
         let ppm = Canvas.canvas_to_ppm canvas in
         let b = Buffer.contents ppm in
         let lines = String.split_on_char '\n' b in
