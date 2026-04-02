@@ -1,4 +1,4 @@
-open Raytracer.Common.Common
+open Raytracer.Common
 open Raytracer.Tuple.TupleOperations
 open Raytracer.Tuple.Tuple
 

@@ -1,4 +1,4 @@
-open Common.Common
+open Common
 
 module Mat = struct
   type t = {
@@ -50,8 +50,8 @@ module Mat = struct
 
   let array_of_matrix matrix = Array.fold_left Array.append [||] matrix
 
-  (* Converts the book's matrix string representation to an actual matrix object 
-      e.g. 
+  (* Converts the book's matrix string representation to an actual matrix object
+      e.g.
       | 1    | 2    | 3    | 4    |
       | 5.5  | 6.5  | 7.5  | 8.5  |
       | 9    | 10   | 11   | 12   |

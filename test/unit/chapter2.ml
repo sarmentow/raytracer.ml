@@ -1,4 +1,4 @@
-open Raytracer.Common.Common
+open Raytracer.Common
 open Raytracer.Color
 open Raytracer.Canvas
 

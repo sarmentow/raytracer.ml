@@ -1,4 +1,4 @@
-open Common.Common
+open Common
 open Matrix
 
 module type Vec4 = sig
