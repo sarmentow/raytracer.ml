@@ -172,3 +172,5 @@ let inverse m =
       done
     done;
     result
+
+let ( >> ) a b = mult b a
