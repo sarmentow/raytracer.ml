@@ -47,3 +47,7 @@ let cross a b =
 let init_point x y z = init x y z 1.
 let init_vector x y z = init x y z 0.
 let ( = ) a b = x a =. x b && y a =. y b && z a =. z b && w a =. w b
+
+let pp fmt tuple =
+  Format.fprintf fmt "(%f:.3f, %f:3f, %f:.3f, %f:.3f)" (x tuple) (y tuple)
+    (z tuple) (w tuple)

@@ -173,4 +173,13 @@ let inverse m =
     done;
     result
 
+let identity =
+  mat_of_matrix
+    [|
+      [| 1.; 0.; 0.; 0. |];
+      [| 0.; 1.; 0.; 0. |];
+      [| 0.; 0.; 1.; 0. |];
+      [| 0.; 0.; 0.; 1. |];
+    |]
+
 let ( >> ) a b = mult b a
