@@ -1,3 +1,7 @@
 (executable
  (name clock)
  (libraries raytracer))
+
+ (executable
+ (name sphere)
+ (libraries raytracer))

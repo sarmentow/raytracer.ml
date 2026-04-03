@@ -19,7 +19,14 @@
  (name raytracer)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml)
+ (depends
+  ocaml
+  (alcotest :with-test)
+  (ocamlformat
+   (and
+    (= 0.29.0)
+    :with-dev-setup)))
+
  (tags
   ("add topics" "to describe" your project)))
 
